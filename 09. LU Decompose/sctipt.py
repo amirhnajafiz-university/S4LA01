@@ -4,29 +4,33 @@
 import numpy as np
 
 
+def modify_format(A):  # This method replaces the rows that have 0 in our main digon
+	r, c = A.shape
+	for i in range(r):
+		if A[i][i] == 0:
+			for j in range(i+1, r):
+				if A[j][i] != 0:
+					A[[i, j]] = A[[j , i]]
+	return A
+
+
 def echelon(A):  # A recurtion function to convert our matrix to Echelon form
     r, c = A.shape
-
     if r == 0 or c == 0:
         return A
-
     for i in range(len(A)):
         if A[i, 0] != 0:
             break
     else:
         B = echelon(A[:, 1:])
         return np.hstack([A[:, :1], B])
-
     if i > 0:
         temp_row = A[i].copy()
         A[i] = A[0]
         A[0] = temp_row
-    
     temp = np.array((A[0] / A[0,0]), dtype=A.dtype)
     A[1:] -= temp * A[1:, 0:1]
-
     B = echelon(A[1:, 1:])
-
     return np.vstack([A[:1], np.hstack([A[1:, :1], B])])
 
 
@@ -42,26 +46,21 @@ def hardcore_check(A):  # This function checks the second rule of LU decompose
 			return False
 	return True
 
-
-def create_I(k):  # This function create the indentify matrix
-	return np.identity(k, dtype = float)
-
-
-def create_L(A):
-	r, c = A.shape
-	L = create_I(r)
-	index = 0
-	for i in range(c):
-		factor = A[i][index]
-		for j in range(index + 1, r):
-			L[j][i] = A[j][i] / factor
-		index += 1
-	return L
+def lu(A):  # This function creates the LU factorization
+    n = A.shape[0]
+    U = A.copy()
+    L = np.eye(n, dtype=float)
+    for i in range(n):
+        factor = U[i+1:, i] / U[i, i]
+        L[i+1:, i] = factor
+        U[i+1:] -= factor[:, np.newaxis] * U[i]  
+    return L, U
 
 
 def execute(): # Program starts
 	# Getting the A matrix
 	array = np.array([[0,1,-4], [2,-3,2], [5,-8,10]], dtype=float)
+	array = modify_format(array)
 	A = np.array(array)
 	print(">> A Matrix: ")
 	print(A)
@@ -82,7 +81,7 @@ def execute(): # Program starts
 		return
 
 	# Create the U matrix
-	L = create_L(A)
+	L, U = lu(A)
 	print(">> The decomposition: ")
 	print("> A:")
 	print(A)
