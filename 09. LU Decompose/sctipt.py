@@ -1,5 +1,16 @@
 """
 
+Project: LU Decomposition
+Date: July 24th 2021
+Author: Amirhossein Najafizadeh
+
+Explain:
+	Given a matrix called A.
+
+	We want to decompose this matrix in an L*U format.
+	We use the modify_format and echelon to check if 
+	our matrix is actually decomposable, after that we
+	create the L and U by calling the lu method.
 """
 import numpy as np
 
