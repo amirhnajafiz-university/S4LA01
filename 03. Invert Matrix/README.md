@@ -11,4 +11,4 @@ else
 </pre>
 
 #### Result
-<img src="https://github.com/amirhnajafiz/LinearAlgebraCourse/blob/master/Projects/Invert%20Matrix/result.png" width=700 />
+<img src="./result.png" width=700 />
