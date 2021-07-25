@@ -51,10 +51,23 @@ def create_XY(data):
 	return A, B
 
 
+def find_transpose(A):
+	return A.transpose()
+
+
+def multiply(A, B):
+	return A.dot(B)
+
 
 def execute():
 	data = import_data()
 	X, Y = create_XY(data)
+	XT = find_transpose(X)
+	print(X)
+	print(Y)
+	print(XT)
+	X = multiply(XT, X)
+	Y = multiply(XT, Y)
 	print(X)
 	print(Y)
 
