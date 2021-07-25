@@ -6,4 +6,4 @@ from matrix, and states the free and non-free variables.<br />
 It also checks the correctness of the system.<br />
 
 Ex : <br /><br />
-<img src="https://github.com/amirhnajafiz/LinearAlgebraCourse/blob/master/Projects/System%20Equetion/Q1_A.png" width=800 />
+<img src="./Q1_A.png" width=800 />
