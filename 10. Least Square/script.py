@@ -59,6 +59,29 @@ def multiply(A, B):
 	return A.dot(B)
 
 
+def solve_equation(A, B):
+	return np.linalg.solve(A, B)
+
+
+def display_line(A):
+	r, c = A.shape
+	string = "y = "
+	power = -1
+	for i in range(r):
+		power += 1
+		if A[i][0] == 0:
+			continue
+		if power == 0:
+			string += f'{str(A[i][0])} '
+		else:
+			if power == 1:
+				string += f' + ({A[i][0]})x '
+			else:
+				string += f' + ({A[i][0]})x^{power} '
+	return string
+
+
+
 def execute():
 	data = import_data()
 	X, Y = create_XY(data)
@@ -70,6 +93,9 @@ def execute():
 	Y = multiply(XT, Y)
 	print(X)
 	print(Y)
+	result = solve_equation(X, Y)
+	print(result)
+	print(display_line(result))
 
 
 if __name__ == "__main__":
