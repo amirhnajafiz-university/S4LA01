@@ -1,21 +1,17 @@
 """
 
-Project: Finding Eigenvalues and Eigenvectors 
-Date: June 25th 2021
+Project: Find the Least Square Line of some data
+Date: July 25th 2021
 Author: Amirhossein Najafizadeh
 
 Explain:
-	Given a matrix, an algorithem to find the
-	eigenvalues and eigenvectors of that matrix.
+	Given a pack of data.
+	This data is like, variable variable ..... result
+	The point is to find a line that is the least square line of
+	the imported data.
 
-	First we solve the equetion: | A - LI | = 0
-	After finding the eigenvalues from abow equetion, we
-	solve the linear system : Ax = Lx
-
-		1. Convert to (1/L) Ax = x
-		2. Then to ( (1/L)A - I ) x = 0
-		3. Then we solve the linear system above by converting to RREF 
-		4. Then we find the vectors of that space
+	After that we can use some undefined result data to find their
+	result based of the given data.
 """
 import sympy as sy 
 import numpy as np
@@ -23,20 +19,27 @@ from sympy.solvers import solve
 
 
 
-VARIABLES = 1
+VARIABLES = 1  # Number of variables in our system
+FILE = './data_1.txt'  # The file data address
 
 
-def import_data():
+def import_data():  # This method imports the given data into the program
+	global VARIABLES
 	data = []
-	with open("./data.txt", 'r') as file:
+	with open(FILE, 'r') as file:
 		lines = file.readlines()
 		for line in lines:
 			parts = line.split(" ")
-			data.append( ( int(parts[0]), int(parts[1]) ) )
+			new_parts = []
+			for part in parts:
+				new_parts.append(int(part))
+			data.append( tuple(new_parts) )
+	if len(data) > 0:
+		VARIABLES = len(data[0]) - 1
 	return data
 
 
-def create_XY(data):
+def create_XY(data):  # This method generates the X and Y matrix from our data
 	r = len(data)
 	c = VARIABLES + 1
 	A = np.zeros((r,c), dtype=int)
@@ -51,50 +54,43 @@ def create_XY(data):
 	return A, B
 
 
-def find_transpose(A):
+def find_transpose(A):  # This method gets a matrix and returns its transpose
 	return A.transpose()
 
 
-def multiply(A, B):
+def multiply(A, B):  # This method multiplies A in B (returns A*B)
 	return A.dot(B)
 
 
-def solve_equation(A, B):
+def solve_equation(A, B):  # This method solves the equetion Ax = B
 	return np.linalg.solve(A, B)
 
 
-def display_line(A):
-	r, c = A.shape
+def display_line(V):  # This method gets a vector and displays the line of that vector
+	r, c = V.shape
 	string = "y = "
 	power = -1
 	for i in range(r):
 		power += 1
-		if A[i][0] == 0:
+		if V[i][0] == 0:
 			continue
 		if power == 0:
-			string += f'{str(A[i][0])} '
+			string += f'{str(V[i][0])} '
 		else:
 			if power == 1:
-				string += f' + ({A[i][0]})x '
+				string += f' + ({V[i][0]})x '
 			else:
-				string += f' + ({A[i][0]})x^{power} '
+				string += f' + ({V[i][0]})x^{power} '
 	return string
 
 
-
-def execute():
+def execute():  # Program starts
 	data = import_data()
 	X, Y = create_XY(data)
 	XT = find_transpose(X)
-	print(X)
-	print(Y)
-	print(XT)
 	X = multiply(XT, X)
 	Y = multiply(XT, Y)
-	print(X)
-	print(Y)
 	result = solve_equation(X, Y)
-	print(result)
 	print(display_line(result))
 
 
