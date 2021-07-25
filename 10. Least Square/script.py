@@ -22,6 +22,10 @@ import numpy as np
 from sympy.solvers import solve
 
 
+
+VARIABLES = 1
+
+
 def import_data():
 	data = []
 	with open("./data.txt", 'r') as file:
@@ -32,8 +36,27 @@ def import_data():
 	return data
 
 
+def create_XY(data):
+	r = len(data)
+	c = VARIABLES + 1
+	A = np.zeros((r,c), dtype=int)
+	B = np.zeros((r,1), dtype=int)
+	for j in range(r):
+		power = 1
+		A[j][0] = 1
+		for index in range(VARIABLES):
+			A[j][index+1] = pow(data[j][index], power)
+			power += 1
+		B[j][0] = data[j][VARIABLES]
+	return A, B
+
+
+
 def execute():
 	data = import_data()
+	X, Y = create_XY(data)
+	print(X)
+	print(Y)
 
 
 if __name__ == "__main__":
