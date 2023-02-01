@@ -1,4 +1,8 @@
-# Linear Algebra Course
+<h1 align="center">
+  S4LA01
+</h1>
+
+<br />
 
 Projects of Linear Algebra course at ceit.aut
 
